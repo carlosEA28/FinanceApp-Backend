@@ -14,6 +14,9 @@ import {
 } from "./helpers/userHelpers.js";
 
 export class UpdateUserController {
+  constructor(updateUserService) {
+    this.updateUserService = updateUserService;
+  }
   async execute(httpRequest) {
     try {
       const userId = httpRequest.params.userId;
@@ -51,8 +54,7 @@ export class UpdateUserController {
         }
       }
 
-      const updateUserService = new UpdateUserService();
-      const updatedUser = await updateUserService.execute(
+      const updatedUser = await this.updateUserService.execute(
         userId,
         updateUserParams
       );

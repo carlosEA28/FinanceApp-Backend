@@ -1,5 +1,3 @@
-import { CreateUserService } from "../service/create-user.js";
-import validator from "validator";
 import { badRequest, created, serverError } from "./helpers/httpHelpers.js";
 import {
   checkIfEmailIsValid,
@@ -9,6 +7,9 @@ import {
 } from "./helpers/userHelpers.js";
 
 export class CreateUserController {
+  constructor(createUserService) {
+    this.createUserService = createUserService;
+  }
   async execute(httpRequest) {
     try {
       const params = httpRequest.body;
@@ -33,8 +34,7 @@ export class CreateUserController {
         return generateEmailAlreadyInUse();
       }
 
-      const createUserService = new CreateUserService();
-      const createdUser = await createUserService.execute(params);
+      const createdUser = await this.createUserService.execute(params);
 
       return created(createdUser);
     } catch (error) {
