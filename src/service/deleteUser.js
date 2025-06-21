@@ -1,5 +1,3 @@
-import { PostgresDeleteUserRepository } from "../repositories/postgres/deleteUser.js";
-
 export class DeleteUserService {
   constructor(deleteUserRepository) {
     this.deleteUserRepository = deleteUserRepository;

@@ -1,4 +1,3 @@
-import { DeleteUserService } from "../service/deleteUser.js";
 import { notFound, ok, serverError } from "./helpers/httpHelpers.js";
 import { checkIfIdIsValid, invalidIdResponse } from "./helpers/userHelpers.js";
 
