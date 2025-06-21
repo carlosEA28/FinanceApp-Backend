@@ -9,7 +9,7 @@ export class CreateUserService {
     const userId = uuidV4();
 
     //criptografar a senha
-    const hashedPassword = bcrypt.hash(createUserParams.password, 10);
+    const hashedPassword = await bcrypt.hash(createUserParams.password, 10);
 
     //inserir user no banco
     const newUser = {
@@ -19,9 +19,10 @@ export class CreateUserService {
     };
 
     //chamar o repo
-
     const postgresRepo = new PostgtresCreteUserRepository();
 
-    return await postgresRepo.execute(newUser);
+    const createdUser = await postgresRepo.execute(newUser);
+
+    return createdUser;
   }
 }
