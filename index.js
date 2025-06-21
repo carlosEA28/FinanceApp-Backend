@@ -11,6 +11,8 @@ import { CreateUserService } from "./src/service/create-user.js";
 import { PostgresGetUserByEmailRepository } from "./src/repositories/postgres/getUserByEmail.js";
 import { PostgresUpdateUserRepository } from "./src/repositories/postgres/updateUser.js";
 import { UpdateUserService } from "./src/service/updateUser.js";
+import { DeleteUserService } from "./src/service/deleteUser.js";
+import { PostgresDeleteUserRepository } from "./src/repositories/postgres/deleteUser.js";
 
 const app = express();
 app.use(express.json());
@@ -62,7 +64,11 @@ app.patch("/api/users/:userId", async (request, response) => {
 });
 
 app.delete("/api/users/:userId", async (req, res) => {
-  const deleteUser = new DeleteUserController();
+  const deleteUserRepository = new PostgresDeleteUserRepository();
+
+  const deleteUserService = new DeleteUserService(deleteUserRepository);
+
+  const deleteUser = new DeleteUserController(deleteUserService);
 
   const { statusCode, body } = await deleteUser.execute(req);
 
