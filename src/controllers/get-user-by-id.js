@@ -1,8 +1,6 @@
-import { GetUserByIdService } from "../service/get-user-by-id.js";
-import { badRequest, ok, serverError } from "./helpers/httpHelpers.js";
+import { ok, serverError } from "./helpers/httpHelpers.js";
 import { invalidIdResponse } from "./helpers/userHelpers.js";
 import validator from "validator";
-import { PostgresGetUserById } from "../repositories/postgres/get-user-by-id.js";
 
 export class GetUserByIdController {
   constructor(getUserByIdService) {
