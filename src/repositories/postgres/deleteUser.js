@@ -1,5 +1,5 @@
-import { PostgresClient } from "../../db/postgres/client";
-("../../db/postgres/client.js");
+import { PostgresClient } from "../../db/postgres/client.js";
+// ("../../db/postgres/client.js");
 
 export class PostgresDeleteUserRepository {
   async execute(userId) {
