@@ -4,8 +4,6 @@ import { PostgtresCreteUserRepository } from "../repositories/postgres/create-us
 import { PostgresGetUserByEmailRepository } from "../repositories/postgres/getUserByEmail.js";
 export class CreateUserService {
   async execute(createUserParams) {
-    //TODO: verificar se o email ja esta em uso
-
     const postgresGetUserByEmail = new PostgresGetUserByEmailRepository();
 
     const userAlreadyExists = postgresGetUserByEmail.execute(

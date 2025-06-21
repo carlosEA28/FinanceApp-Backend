@@ -22,5 +22,5 @@ app.get("/api/users/:userId", async (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log("oi");
+  console.log(`Server Running on port ${process.env.PORT}`);
 });
