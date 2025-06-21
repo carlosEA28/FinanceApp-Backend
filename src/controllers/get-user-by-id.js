@@ -1,6 +1,7 @@
 import { GetUserByIdService } from "../service/get-user-by-id.js";
 import { badRequest, ok, serverError } from "./helpers/httpHelpers.js";
 import { invalidIdResponse } from "./helpers/userHelpers.js";
+import validator from "validator";
 
 export class GetUserByIdController {
   async execute(httpRequest) {

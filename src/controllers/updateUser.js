@@ -10,6 +10,7 @@ import {
   generateInvalidPassowordResponse,
   invalidIdResponse,
   checkIfPasswordIsValid,
+  checkIfIdIsValid,
 } from "./helpers/userHelpers.js";
 
 export class UpdateUserController {
@@ -17,7 +18,7 @@ export class UpdateUserController {
     try {
       const userId = httpRequest.params.userId;
 
-      const isIdValid = invalidIdResponse(userId);
+      const isIdValid = checkIfIdIsValid(userId);
 
       if (!isIdValid) {
         return invalidIdResponse();
@@ -38,28 +39,24 @@ export class UpdateUserController {
         const passwordIsValid = checkIfPasswordIsValid(
           updateUserParams.password
         );
-
-        if (passwordIsValid) {
+        if (!passwordIsValid) {
           return generateInvalidPassowordResponse();
         }
-
-        if (updateUserParams.email) {
-          const emailIsValid = checkIfEmailIsValid(updateUserParams.email);
-
-          if (!emailIsValid) {
-            return generateEmailAlreadyInUse();
-          }
-        }
-
-        const updateUserService = new UpdateUserService();
-
-        const updatedUser = await updateUserService.execute(
-          userId,
-          updateUserParams
-        );
-
-        return ok(updatedUser);
       }
+
+      if (updateUserParams.email) {
+        const emailIsValid = checkIfEmailIsValid(updateUserParams.email);
+        if (!emailIsValid) {
+          return generateEmailAlreadyInUse();
+        }
+      }
+
+      const updateUserService = new UpdateUserService();
+      const updatedUser = await updateUserService.execute(
+        userId,
+        updateUserParams
+      );
+      return ok(updatedUser);
     } catch (error) {
       console.error(error);
       return serverError();
