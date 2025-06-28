@@ -1,7 +1,7 @@
 import { PostgresCreateTransactioRepository } from "../../repositories/postgres/transaction/createTransaction.js";
 import { CreateTransactionService } from "../../service/transactions/createTrasaction.js";
-import { PostgresGetUserById } from "../../repositories/postgres/user/get-user-by-id";
-import { CreateTransactionController } from "../../controllers/transaction/createTransaction";
+import { PostgresGetUserById } from "../../repositories/postgres/user/get-user-by-id.js";
+import { CreateTransactionController } from "../../controllers/transaction/createTransaction.js";
 
 export const makeCreateTransactionController = () => {
   const prostgresCreateTransactionRepository =

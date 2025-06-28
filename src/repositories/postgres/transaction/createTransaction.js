@@ -1,4 +1,4 @@
-import { PostgresClient } from "../../../db/postgres/client";
+import { PostgresClient } from "../../../db/postgres/client.js";
 
 export class PostgresCreateTransactioRepository {
   async execute(createTransactionParams) {
@@ -16,6 +16,6 @@ export class PostgresCreateTransactioRepository {
       ]
     );
 
-    return createTransactionParams[0];
+    return createdTransaction[0];
   }
 }
