@@ -1,6 +1,6 @@
 import { v4 as uuidV4 } from "uuid";
 import bcrypt from "bcrypt";
-import { generateEmailAlreadyInUse } from "../controllers/helpers/userHelpers.js";
+import { generateEmailAlreadyInUse } from "../../controllers/helpers/userHelpers.js";
 export class CreateUserService {
   constructor(getUserByEmailRepository, createUserRepository) {
     this.getUserByEmailRepository = getUserByEmailRepository;

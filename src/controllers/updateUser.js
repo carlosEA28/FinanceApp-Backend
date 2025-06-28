@@ -3,7 +3,7 @@ import {
   ok,
   serverError,
 } from "../controllers/helpers/httpHelpers.js";
-import { UpdateUserService } from "../service/updateUser.js";
+
 import {
   checkIfEmailIsValid,
   generateEmailAlreadyInUse,

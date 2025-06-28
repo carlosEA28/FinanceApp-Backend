@@ -7,10 +7,10 @@ import { PostgresDeleteUserRepository } from "../../repositories/postgres/user/d
 import { PostgresGetUserById } from "../../repositories/postgres/user/get-user-by-id.js";
 import { PostgresGetUserByEmailRepository } from "../../repositories/postgres/user/getUserByEmail.js";
 import { PostgresUpdateUserRepository } from "../../repositories/postgres/user/updateUser.js";
-import { CreateUserService } from "../../service/create-user.js";
-import { DeleteUserService } from "../../service/deleteUser.js";
-import { GetUserByIdService } from "../../service/get-user-by-id.js";
-import { UpdateUserService } from "../../service/updateUser.js";
+import { CreateUserService } from "../../service/user/create-user.js";
+import { DeleteUserService } from "../../service/user/deleteUser.js";
+import { GetUserByIdService } from "../../service/user/get-user-by-id.js";
+import { UpdateUserService } from "../../service/user/updateUser.js";
 
 export const makeGetUserByIdController = () => {
   const getUserByIdRepository = new PostgresGetUserById();
