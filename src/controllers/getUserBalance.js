@@ -16,8 +16,6 @@ export class GetUserBalanceController {
       const userId = httpRequest.params.userId;
       const idIsValid = checkIfIdIsValid(userId);
 
-      console.log("Recebido userId:", httpRequest.params.userId);
-
       if (!idIsValid) {
         return invalidIdResponse();
       }
