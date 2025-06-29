@@ -2,7 +2,7 @@ import { UserNotFoundError } from "../../errors/user.js";
 
 export class GetTransactiosByUserIdService {
   constructor(getTransactiosByUserIdRepository, getUserByIdRepository) {
-    this.getUserByIdRepository = getUserByIdRepository;
+    this.getTransactiosByUserIdRepository = getTransactiosByUserIdRepository;
     this.getUserByIdRepository = getUserByIdRepository;
   }
   async execute(params) {

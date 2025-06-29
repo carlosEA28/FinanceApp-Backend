@@ -1,6 +1,10 @@
 import validator from "validator";
+import { badRequest } from "../../controllers/helpers/httpHelpers.js";
 
 export const checkIfIsString = (value) => typeof value === "string";
+
+export const requiredFieldIsMissing = (field) =>
+  badRequest({ message: `The field ${field} is missing` });
 
 export const validateRequiredFields = (params, requiredFields) => {
   for (const field of requiredFields) {
