@@ -1,3 +1,5 @@
+import { ZodError } from "zod";
+import { createTransactionSchema } from "../../schemas/transactions.js";
 import { serverError, badRequest, created } from "../helpers/httpHelpers.js";
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/userHelpers.js";
 import validator from "validator";
@@ -10,54 +12,17 @@ export class CreateTransactionController {
     try {
       const params = httpRequest.body;
 
-      const requiredFields = ["user_id", "name", "date", "amount", "type"];
+      await createTransactionSchema.parseAsync(params);
 
-      for (const field of requiredFields) {
-        if (!params[field] || params[field].toString().trim().length === 0) {
-          return badRequest({ message: `Missing Param ${field}` });
-        }
-        const userIdIsValid = checkIfIdIsValid(params.user_id);
+      const transaction = await this.createTransactionSerivce.execute(params);
 
-        if (!userIdIsValid) {
-          return invalidIdResponse();
-        }
-
-        if (params.amount <= 0) {
-          return badRequest();
-        }
-
-        const amountIsValid = validator.isCurrency(params.amount.toString(), {
-          digits_after_decimal: [2],
-          allow_negatives: false,
-          decimal_separator: ".",
-        });
-
-        if (!amountIsValid) {
-          return badRequest({
-            message: "erro amount",
-          });
-        }
-
-        const type = params.type.trim().toUpperCase();
-
-        const typeIsValid = ["EARNING", "EXPENSE", "INVESTIMENT"].includes(
-          type
-        );
-
-        if (!typeIsValid) {
-          return badRequest({
-            message: "erro tipo",
-          });
-        }
-
-        const transaction = await this.createTransactionSerivce.execute({
-          ...params,
-          type,
-        });
-
-        return created(transaction);
-      }
+      return created(transaction);
     } catch (error) {
+      if (error instanceof ZodError) {
+        return badRequest({
+          message: error.errors[0].message,
+        });
+      }
       console.error(error);
       return serverError();
     }
