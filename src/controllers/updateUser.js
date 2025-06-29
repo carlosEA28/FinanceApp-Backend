@@ -1,17 +1,12 @@
+import { ZodError } from "zod";
 import {
   badRequest,
   ok,
   serverError,
 } from "../controllers/helpers/httpHelpers.js";
+import { updateUserSchema } from "../schemas/user.js";
 
-import {
-  checkIfEmailIsValid,
-  generateEmailAlreadyInUse,
-  generateInvalidPassowordResponse,
-  invalidIdResponse,
-  checkIfPasswordIsValid,
-  checkIfIdIsValid,
-} from "./helpers/userHelpers.js";
+import { invalidIdResponse, checkIfIdIsValid } from "./helpers/userHelpers.js";
 
 export class UpdateUserController {
   constructor(updateUserService) {
@@ -28,31 +23,7 @@ export class UpdateUserController {
       }
       const updateUserParams = httpRequest.body;
 
-      const allowedFields = ["first_name", "last_name", "email", "password"];
-
-      const someFieldIsNotAllowed = Object.keys(updateUserParams).some(
-        (field) => !allowedFields.includes(field)
-      );
-
-      if (someFieldIsNotAllowed) {
-        return badRequest({ message: "Some provided field is not allowes" });
-      }
-
-      if (updateUserParams.password) {
-        const passwordIsValid = checkIfPasswordIsValid(
-          updateUserParams.password
-        );
-        if (!passwordIsValid) {
-          return generateInvalidPassowordResponse();
-        }
-      }
-
-      if (updateUserParams.email) {
-        const emailIsValid = checkIfEmailIsValid(updateUserParams.email);
-        if (!emailIsValid) {
-          return generateEmailAlreadyInUse();
-        }
-      }
+      await updateUserSchema.parseAsync(updateUserParams);
 
       const updatedUser = await this.updateUserService.execute(
         userId,
@@ -60,6 +31,11 @@ export class UpdateUserController {
       );
       return ok(updatedUser);
     } catch (error) {
+      if (error instanceof ZodError) {
+        return badRequest({
+          message: error.errors[0].message,
+        });
+      }
       console.error(error);
       return serverError();
     }

@@ -17,3 +17,8 @@ export const createUserSchema = z.object({
     .trim()
     .min(6, { message: "Password must have at least 6 characters" }),
 });
+//partial mantem os campos de um certo schema
+//strict garante que apenas os campos do schema sejam validados, se houver uma req com um campo fora do schema, da erro
+export const updateUserSchema = createUserSchema
+  .partial()
+  .strict({ message: "Some provided fields not allowed" });
