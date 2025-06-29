@@ -1,16 +1,16 @@
 import { PostgresClient } from "../../../db/postgres/client.js";
 
 export class PostgresUpdateTransactionRepository {
-  async execute(userId, updateTransactionParams) {
+  async execute(transactionId, updateTransactionParams) {
     const updatedFields = [];
     const updatedValues = [];
 
-    Object.keys(updateUserParams).forEach((key, index) => {
+    Object.keys(updateTransactionParams).forEach((key, index) => {
       updatedFields.push(`${key} = $${index + 1}`);
       updatedValues.push(updateTransactionParams[key]);
     });
 
-    updatedValues.push(userId);
+    updatedValues.push(transactionId);
     const userIdPlaceholder = `$${updatedValues.length}`;
 
     const updateQuery = `
