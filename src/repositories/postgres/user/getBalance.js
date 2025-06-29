@@ -19,6 +19,9 @@ export class PostgresGetBalanceRepository {
       [userId]
     );
 
-    return results[0];
+    return {
+      userId,
+      ...results[0],
+    };
   }
 }
