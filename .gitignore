@@ -1,3 +1,7 @@
 node_modules
-.postgres
+
+#env files
 .env
+
+#Postgres Volume
+.postgres_data
