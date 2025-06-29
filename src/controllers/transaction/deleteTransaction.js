@@ -1,5 +1,6 @@
 import { ok, serverError } from "../helpers/httpHelpers.js";
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/userHelpers.js";
+import { transactionNotFoundResponse } from "../helpers/transaction.js";
 
 export class DeleteTransactionController {
   constructor(deleteTransactionSerivce) {
@@ -17,6 +18,10 @@ export class DeleteTransactionController {
       const transaction = await this.deleteTransactionSerivce.execute(
         httpRequest.params.transactionId
       );
+
+      if (!transaction) {
+        return transactionNotFoundResponse();
+      }
 
       return ok(transaction);
     } catch (error) {

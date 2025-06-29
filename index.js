@@ -8,6 +8,7 @@ import {
 } from "./src/factories/controllers/user.js";
 import {
   makeCreateTransactionController,
+  makeDeleteTransaction,
   makeGetTransactionsByUserIdController,
   makeUpdateTransactionController,
 } from "./src/factories/controllers/transaction.js";
@@ -73,6 +74,15 @@ app.patch("/api/transactions/:transactionId", async (req, res) => {
 
   res.status(statusCode).send(body);
 });
+
+app.delete("/api/transactions/:transactionId", async (req, res) => {
+  const deleteTransactionController = makeDeleteTransaction();
+
+  const { statusCode, body } = await deleteTransactionController.execute(req);
+
+  res.status(statusCode).send(body);
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server Running on port ${process.env.PORT}`);
 });

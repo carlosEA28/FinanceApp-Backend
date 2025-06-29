@@ -8,6 +8,9 @@ import { GetTransactiosByUserIdService } from "../../service/transactions/getTra
 import { PostgresUpdateTransactionRepository } from "../../repositories/postgres/transaction/updateTransaction.js";
 import { UpdateTransactionService } from "../../service/transactions/updateTransaction.js";
 import { UpdateTransactionController } from "../../controllers/transaction/updateTransaction.js";
+import { PostgresDeleteTransactionRepository } from "../../repositories/postgres/transaction/deleteTransaction.js";
+import { DeleteTransactionService } from "../../service/transactions/deleteTransaction.js";
+import { DeleteTransactionController } from "../../controllers/transaction/deleteTransaction.js";
 
 export const makeCreateTransactionController = () => {
   const prostgresCreateTransactionRepository =
@@ -56,4 +59,18 @@ export const makeUpdateTransactionController = () => {
   );
 
   return updateTransactionController;
+};
+
+export const makeDeleteTransaction = () => {
+  const deleteTransactionRepository = new PostgresDeleteTransactionRepository();
+
+  const deleteTransactionServcice = new DeleteTransactionService(
+    deleteTransactionRepository
+  );
+
+  const deleteTransactionController = new DeleteTransactionController(
+    deleteTransactionServcice
+  );
+
+  return deleteTransactionController;
 };
