@@ -1,7 +1,7 @@
-import { UserNotFoundError } from "../../errors/user";
-import { ok } from "../helpers/httpHelpers";
-import { checkIfIdIsValid, invalidIdResponse } from "../helpers/userHelpers";
-import { requiredFieldIsMissing } from "../helpers/validation";
+import { UserNotFoundError } from "../../errors/user.js";
+import { ok } from "../helpers/httpHelpers.js";
+import { checkIfIdIsValid, invalidIdResponse } from "../helpers/userHelpers.js";
+import { requiredFieldIsMissing } from "../helpers/validation.js";
 
 export class GetTransactiosByUserIdController {
   constructor(getTransactiosByUserIdService) {
