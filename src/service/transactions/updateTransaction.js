@@ -1,5 +1,3 @@
-import { UserNotFoundError } from "../../errors/user.js";
-
 export class UpdateTransactionService {
   constructor(updateTransactionRepository, getUserByIdRepository) {
     this.updateTransactionRepository = updateTransactionRepository;
