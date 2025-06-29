@@ -1,4 +1,5 @@
 import { ok, serverError } from "../controllers/helpers/httpHelpers.js";
+import { UserNotFoundError } from "../errors/user.js";
 import {
   checkIfIdIsValid,
   invalidIdResponse,
@@ -15,11 +16,13 @@ export class GetUserBalanceController {
       const userId = httpRequest.params.userId;
       const idIsValid = checkIfIdIsValid(userId);
 
+      console.log("Recebido userId:", httpRequest.params.userId);
+
       if (!idIsValid) {
         return invalidIdResponse();
       }
 
-      const balance = await this.getUserBalanceService.getBalance(userId);
+      const balance = await this.getUserBalanceService.execute({ userId });
       return ok(balance);
     } catch (error) {
       if (error instanceof UserNotFoundError) {

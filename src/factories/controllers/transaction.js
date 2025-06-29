@@ -60,16 +60,15 @@ export const makeUpdateTransactionController = () => {
 
   return updateTransactionController;
 };
-
 export const makeDeleteTransaction = () => {
   const deleteTransactionRepository = new PostgresDeleteTransactionRepository();
 
-  const deleteTransactionServcice = new DeleteTransactionService(
+  const deleteTransactionService = new DeleteTransactionService(
     deleteTransactionRepository
   );
 
   const deleteTransactionController = new DeleteTransactionController(
-    deleteTransactionServcice
+    deleteTransactionService
   );
 
   return deleteTransactionController;

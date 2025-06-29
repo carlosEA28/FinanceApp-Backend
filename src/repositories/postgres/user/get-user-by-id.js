@@ -7,6 +7,8 @@ export class PostgresGetUserById {
       [userId]
     );
 
+    console.log("Resultado da query:", user[0]); // 👈 loga aqui!
+
     return user[0];
   }
 }

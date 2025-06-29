@@ -8,6 +8,8 @@ export class GetUserBalanceService {
   async execute(params) {
     const user = await this.getUserByIdRepository.execute(params.userId);
 
+    console.log("Usuário encontrado:", user);
+
     if (!user) {
       throw new UserNotFoundError();
     }
