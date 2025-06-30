@@ -1,4 +1,3 @@
-import { PostgresClient } from "../../../db/postgres/client.js";
 import { prisma } from "../../../../prisma/prisma.js";
 
 export class PostgresDeleteTransactionRepository {

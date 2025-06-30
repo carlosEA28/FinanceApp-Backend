@@ -28,7 +28,7 @@ export const validateRequiredFields = (params, requiredFields) => {
 };
 
 export const checkIfAmountIsValid = (amount) => {
-  validator.isCurrency(amount.toString(), {
+  return validator.isCurrency(amount.toString(), {
     digits_after_decimal: [2],
     allow_negatives: false,
     decimal_separator: ".",
