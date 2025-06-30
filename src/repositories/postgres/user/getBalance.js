@@ -1,4 +1,5 @@
 import { prisma } from "../../../../prisma/prisma.js";
+import { Prisma } from "../../../generated/prisma/index.js";
 
 export class PostgresGetBalanceRepository {
   async execute(userId) {
@@ -7,7 +8,6 @@ export class PostgresGetBalanceRepository {
         user_id: userId,
         type: "EXPENSE",
       },
-
       _sum: {
         amount: true,
       },
@@ -18,7 +18,6 @@ export class PostgresGetBalanceRepository {
         user_id: userId,
         type: "EARNING",
       },
-
       _sum: {
         amount: true,
       },
@@ -29,14 +28,25 @@ export class PostgresGetBalanceRepository {
         user_id: userId,
         type: "INVESTMENT",
       },
-
       _sum: {
         amount: true,
       },
     });
 
-    const balance = totalEarnings - totalExpenses - totalInvestments;
+    const _totalEarnings = totalEarnings._sum.amount ?? new Prisma.Decimal(0);
+    const _totalExpenses = totalExpenses._sum.amount ?? new Prisma.Decimal(0);
+    const _totalInvestments =
+      totalInvestments._sum.amount ?? new Prisma.Decimal(0);
 
-    return balance;
+    const balance = _totalEarnings
+      .minus(_totalExpenses)
+      .minus(_totalInvestments);
+
+    return {
+      earnings: _totalEarnings,
+      expenses: _totalExpenses,
+      investments: _totalInvestments,
+      balance,
+    };
   }
 }
