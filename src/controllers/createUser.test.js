@@ -70,4 +70,55 @@ describe("Create User Controller", () => {
     //assert
     expect(result.statusCode).toBe(400);
   });
+
+  it("should return 400 if email is not provided", async () => {
+    const createUserService = new CreateUserServiceStub();
+    const createUserController = new CreateUserController(createUserService);
+
+    const httpRequest = {
+      body: {
+        first_name: "Carlos Eduardo",
+        last_name: "Alves Duarte",
+        password: "1234567",
+      },
+    };
+
+    const result = await createUserController.execute(httpRequest);
+
+    expect(result.statusCode).toBe(400);
+  });
+
+  it("should return 400 if the email is not valid", async () => {
+    const createUserService = new CreateUserServiceStub();
+    const createUserController = new CreateUserController(createUserService);
+
+    const httpRequest = {
+      body: {
+        first_name: "Carlos Eduardo",
+        email: "@gmail.com",
+        last_name: "Alves Duarte",
+        password: "1234567",
+      },
+    };
+
+    const result = await createUserController.execute(httpRequest);
+
+    expect(result.statusCode).toBe(400);
+  });
+  it("should return 400 if the password is not provided", async () => {
+    const createUserService = new CreateUserServiceStub();
+    const createUserController = new CreateUserController(createUserService);
+
+    const httpRequest = {
+      body: {
+        first_name: "Carlos Eduardo",
+        email: "123sf@gmail.com",
+        last_name: "Alves Duarte",
+      },
+    };
+
+    const result = await createUserController.execute(httpRequest);
+
+    expect(result.statusCode).toBe(400);
+  });
 });
