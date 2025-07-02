@@ -62,7 +62,7 @@ describe("DeleteUserController", () => {
   it("should return 500 if DeleteUserService throws", async () => {
     //arrange
     const { deleteUserService, sut } = makeSut();
-    jest.spyOn(deleteUserService, "execute").mockReturnValueOnce(() => {
+    jest.spyOn(deleteUserService, "execute").mockImplementationOnce(() => {
       throw new Error();
     });
 
