@@ -28,7 +28,7 @@ describe("Create User Controller", () => {
     //assert
 
     expect(result.statusCode).toBe(201);
-    expect(result.body).toBe(httpRequest.body);
+    expect(result.body).toEqual(httpRequest.body);
   });
 
   it("should return 400 if first_name is not provided", async () => {
@@ -137,5 +137,30 @@ describe("Create User Controller", () => {
     const result = await createUserController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
+  });
+
+  it("should call CreateUserServicec with correct params", async () => {
+    //arrange
+    const createUserService = new CreateUserServiceStub();
+    const createUserController = new CreateUserController(createUserService);
+
+    const httpRequest = {
+      body: {
+        first_name: "Carlos Eduardo",
+        last_name: "Alves Duarte",
+        email: "123sf@gmail.com",
+        password: "1234567",
+      },
+    };
+
+    const executeSpy = jest.spyOn(createUserService, "execute");
+
+    //act
+
+    await createUserController.execute(httpRequest);
+
+    //assert
+
+    expect(executeSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 });
