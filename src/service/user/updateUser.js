@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { EmailAlreadyInUseError } from "../../errors/user";
 
 export class UpdateUserService {
   constructor(getUserByEmailRepository, updateUserRepository) {
