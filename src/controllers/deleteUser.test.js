@@ -31,11 +31,22 @@ describe("DeleteUserController", () => {
   it("should return 200 when deleting a user ", async () => {
     //arrange
     const { sut } = makeSut();
-    //act
 
+    //act
     const res = await sut.execute(httpRequest);
     //assert
 
     expect(res.statusCode).toBe(200);
+  });
+
+  it("should return 400 if id is invalid", async () => {
+    //arrange
+    const { sut } = makeSut();
+
+    //act
+    const res = await sut.execute({ params: { userId: "invalid_id" } });
+
+    //assert
+    expect(res.statusCode).toBe(400);
   });
 });
