@@ -58,4 +58,18 @@ describe("DeleteUserController", () => {
 
     expect(res.statusCode).toBe(404);
   });
+
+  it("should return 500 if DeleteUserService throws", async () => {
+    //arrange
+    const { deleteUserService, sut } = makeSut();
+    jest.spyOn(deleteUserService, "execute").mockReturnValueOnce(() => {
+      throw new Error();
+    });
+
+    //act
+    const res = await sut.execute(httpRequest);
+
+    //assert
+    expect(res.statusCode).toBe(500);
+  });
 });
