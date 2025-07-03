@@ -1,5 +1,8 @@
 import { ok, serverError } from "./helpers/httpHelpers.js";
-import { invalidIdResponse } from "./helpers/userHelpers.js";
+import {
+  invalidIdResponse,
+  userNotFoundResponse,
+} from "./helpers/userHelpers.js";
 import validator from "validator";
 
 export class GetUserByIdController {
@@ -20,6 +23,10 @@ export class GetUserByIdController {
       return ok(user);
     } catch (error) {
       console.log(error);
+
+      if (error instanceof userNotFoundResponse()) {
+        return userNotFoundResponse();
+      }
 
       return serverError();
     }
