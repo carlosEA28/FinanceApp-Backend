@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { GetUserByIdController } from "./get-user-by-id";
+import { userNotFoundResponse } from "./helpers/userHelpers";
 
 describe("GetUserByIdController", () => {
   class GetUserByIdStub {
@@ -51,5 +52,21 @@ describe("GetUserByIdController", () => {
 
     //assert
     expect(res.statusCode).toBe(400);
+  });
+
+  it("should return 404 if user was not found", async () => {
+    //arrange
+    const { sut, getUserByIdService } = makeSut();
+    jest.spyOn(getUserByIdService, "execute").mockResolvedValue(null);
+    //act
+
+    const res = await sut.execute({
+      params: {
+        userId: httpRequest.params.userId,
+      },
+    });
+
+    //assert
+    expect(res.statusCode).toBe(404);
   });
 });
