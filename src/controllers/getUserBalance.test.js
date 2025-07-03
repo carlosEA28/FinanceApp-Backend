@@ -45,7 +45,7 @@ describe("GetUserBalance", () => {
     expect(res.statusCode).toBe(400);
   });
 
-  it("should return 500 if GetUserBalance throws", async () => {
+  it("should return 500 if GetUserBalanceService throws", async () => {
     //arrange
     const { getUserBalanceService, sut } = makeSut();
     jest
