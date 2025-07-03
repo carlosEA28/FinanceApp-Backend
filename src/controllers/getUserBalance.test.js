@@ -31,4 +31,17 @@ describe("GetUserBalance", () => {
     //assert
     expect(res.statusCode).toBe(200);
   });
+
+  it("should return 400 when user id is invalid", async () => {
+    //arrange
+    const { sut } = makeSut();
+
+    //act
+
+    const res = await sut.execute({ params: { userId: "invalid_userId" } });
+
+    //assert
+
+    expect(res.statusCode).toBe(400);
+  });
 });
