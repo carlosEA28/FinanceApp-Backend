@@ -20,13 +20,13 @@ export class GetUserByIdController {
         httpRequest.params.userId
       );
 
+      if (!user) {
+        return userNotFoundResponse();
+      }
+
       return ok(user);
     } catch (error) {
       console.log(error);
-
-      if (error instanceof userNotFoundResponse()) {
-        return userNotFoundResponse();
-      }
 
       return serverError();
     }
