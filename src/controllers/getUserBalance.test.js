@@ -44,4 +44,18 @@ describe("GetUserBalance", () => {
 
     expect(res.statusCode).toBe(400);
   });
+
+  it("should return 500 if GetUserBalance throws", async () => {
+    //arrange
+    const { getUserBalanceService, sut } = makeSut();
+    jest
+      .spyOn(getUserBalanceService, "execute")
+      .mockRejectedValueOnce(new Error());
+
+    //act
+    const res = await sut.execute(httpRequest);
+
+    //assert
+    expect(res.statusCode).toBe(500);
+  });
 });
