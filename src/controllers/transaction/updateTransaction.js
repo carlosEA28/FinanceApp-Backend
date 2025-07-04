@@ -1,6 +1,6 @@
+import { updateTransactionSchema } from "../../schemas/transactions.js";
 import { badRequest, ok, serverError } from "../helpers/httpHelpers.js";
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/userHelpers.js";
-import { checkIfAmountIsValid } from "../helpers/validation.js";
 
 export class UpdateTransactionController {
   constructor(updateTransactionService) {
@@ -14,34 +14,8 @@ export class UpdateTransactionController {
         return invalidIdResponse();
       }
       const params = httpRequest.body;
-      const allowedFields = ["name", "data", "amount", "type"];
 
-      const someFieldIsNotAllowed = Object.keys(params).some(
-        (field) => !allowedFields.includes(field)
-      );
-
-      if (someFieldIsNotAllowed) {
-        return badRequest({ message: "Some provided field is not allowes" });
-      }
-
-      if (params.amount) {
-        const amountIsValid = checkIfAmountIsValid(params.amount);
-        if (!amountIsValid) {
-          throw new Error("Invalid amount");
-        }
-      }
-
-      if (params.type) {
-        const type = params.type.trim().toUpperCase();
-
-        const typeIsValid = ["EARNING", "EXPENSE", "INVESTIMENT"].includes(
-          type
-        );
-
-        if (!typeIsValid) {
-          throw new Error("Invalid Type");
-        }
-      }
+      await updateTransactionSchema.parseAsync(params);
 
       const transaction = await this.updateTransactionService.execute(
         httpRequest.params.transactionId,
@@ -50,7 +24,13 @@ export class UpdateTransactionController {
 
       return ok(transaction);
     } catch (error) {
+      if (error instanceof ZodError) {
+        return badRequest({
+          message: error.errors[0].message,
+        });
+      }
       console.error(error);
+
       return serverError();
     }
   }
