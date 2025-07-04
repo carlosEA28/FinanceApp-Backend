@@ -13,7 +13,7 @@ describe("UpdateUserController", () => {
 
     return {
       sut,
-      UpdateUserServiceStub,
+      updateUserService,
     };
   };
 
@@ -95,5 +95,16 @@ describe("UpdateUserController", () => {
     });
 
     expect(result.statusCode).toBe(400);
+  });
+
+  it("should return 500 if UpdateUserService throws with generic error", async () => {
+    const { sut, updateUserService } = makeSut();
+    jest.spyOn(updateUserService, "execute").mockRejectedValueOnce(() => {
+      throw new Error();
+    });
+
+    const result = await sut.execute(httpRequest);
+
+    expect(result.statusCode).toBe(500);
   });
 });
