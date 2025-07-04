@@ -7,6 +7,7 @@ import {
 import { updateUserSchema } from "../schemas/user.js";
 
 import { invalidIdResponse, checkIfIdIsValid } from "./helpers/userHelpers.js";
+import { EmailAlreadyInUseError } from "../errors/user.js";
 
 export class UpdateUserController {
   constructor(updateUserService) {
@@ -34,6 +35,12 @@ export class UpdateUserController {
       if (error instanceof ZodError) {
         return badRequest({
           message: error.errors[0].message,
+        });
+      }
+
+      if (error instanceof EmailAlreadyInUseError) {
+        return badRequest({
+          message: error.message,
         });
       }
       console.error(error);
