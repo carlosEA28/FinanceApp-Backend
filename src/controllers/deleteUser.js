@@ -24,7 +24,6 @@ export class DeleteUserController {
 
       return ok(deletedUser);
     } catch (error) {
-      console.log(error);
       return serverError();
     }
   }

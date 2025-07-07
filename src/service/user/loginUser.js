@@ -14,13 +14,10 @@ export class LoginUserService {
     this.tokenGeneratorAdapter = tokenGeneratorAdapter;
   }
   async execute(email, password) {
-    //verificar se o email e valido
     const user = await this.getUserByEmailRepository.execute(email);
     if (!user) {
       throw new UserNotFoundError();
     }
-
-    //verificar se  a senha recebida e valida
 
     const isPasswordValid = this.passwordComparatorAdapter.execute(
       password,
@@ -30,7 +27,6 @@ export class LoginUserService {
     if (!isPasswordValid) {
       throw new InvalidPasswordError();
     }
-    //gerar os tokens
 
     return {
       ...user,
