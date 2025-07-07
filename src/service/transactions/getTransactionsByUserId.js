@@ -5,7 +5,7 @@ export class GetTransactiosByUserIdService {
     this.getTransactiosByUserIdRepository = getTransactiosByUserIdRepository;
     this.getUserByIdRepository = getUserByIdRepository;
   }
-  async execute(params) {
+  async execute(params, from, to) {
     const user = await this.getUserByIdRepository.execute(params.userId);
 
     if (!user) {
@@ -13,7 +13,9 @@ export class GetTransactiosByUserIdService {
     }
 
     const transactions = await this.getTransactiosByUserIdRepository.execute(
-      params.userId
+      params.userId,
+      from,
+      to
     );
 
     return transactions;
