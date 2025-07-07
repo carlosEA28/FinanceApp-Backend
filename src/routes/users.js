@@ -7,10 +7,11 @@ import {
   makeLoginUserController,
   makeUpdateUserController,
 } from "../factories/controllers/user.js";
+import { auth } from "../middlewares/auth.js";
 
 export const usersRouter = Router();
 
-usersRouter.get("/:userId", async (req, res) => {
+usersRouter.get("/:userId", auth, async (req, res) => {
   const getUserByIdController = makeGetUserByIdController();
 
   const { statusCode, body } = await getUserByIdController.execute(req);
@@ -26,7 +27,7 @@ usersRouter.post("/", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-usersRouter.patch("/:userId", async (request, response) => {
+usersRouter.patch("/:userId", auth, async (request, response) => {
   const updateUserController = makeUpdateUserController();
 
   const { statusCode, body } = await updateUserController.execute(request);
@@ -34,7 +35,7 @@ usersRouter.patch("/:userId", async (request, response) => {
   response.status(statusCode).send(body);
 });
 
-usersRouter.delete("/:userId", async (req, res) => {
+usersRouter.delete("/:userId", auth, async (req, res) => {
   const deleteUser = makeDeleteUserController();
 
   const { statusCode, body } = await deleteUser.execute(req);
@@ -42,7 +43,7 @@ usersRouter.delete("/:userId", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-usersRouter.get("/:userId/balance", async (req, res) => {
+usersRouter.get("/:userId/balance", auth, async (req, res) => {
   const getUserBalanceController = makeGetUserBalanceController();
 
   const { statusCode, body } = await getUserBalanceController.execute(req);
