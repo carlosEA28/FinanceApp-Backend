@@ -11,6 +11,7 @@ import { UpdateTransactionController } from "../../controllers/transaction/updat
 import { PostgresDeleteTransactionRepository } from "../../repositories/postgres/transaction/deleteTransaction.js";
 import { DeleteTransactionService } from "../../service/transactions/deleteTransaction.js";
 import { DeleteTransactionController } from "../../controllers/transaction/deleteTransaction.js";
+import { GetTransactionByIdRepository } from "../../repositories/postgres/transaction/getTransactionById.js";
 
 export const makeCreateTransactionController = () => {
   const prostgresCreateTransactionRepository =
@@ -49,9 +50,11 @@ export const makeGetTransactionsByUserIdController = () => {
 
 export const makeUpdateTransactionController = () => {
   const updateTransactionRepository = new PostgresUpdateTransactionRepository();
+  const getTransactionByIdRepository = new GetTransactionByIdRepository();
 
   const updateTransactionService = new UpdateTransactionService(
-    updateTransactionRepository
+    updateTransactionRepository,
+    getTransactionByIdRepository
   );
 
   const updateTransactionController = new UpdateTransactionController(
@@ -60,6 +63,7 @@ export const makeUpdateTransactionController = () => {
 
   return updateTransactionController;
 };
+
 export const makeDeleteTransaction = () => {
   const deleteTransactionRepository = new PostgresDeleteTransactionRepository();
 

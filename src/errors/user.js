@@ -18,3 +18,9 @@ export class InvalidPasswordError extends Error {
     this.name = "InvalidPasswordError";
   }
 }
+export class ForbidenError extends Error {
+  constructor() {
+    super(`You are not allowed to perform this action`);
+    this.name = "ForbidenError";
+  }
+}

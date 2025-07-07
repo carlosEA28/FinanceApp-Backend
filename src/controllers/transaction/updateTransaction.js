@@ -1,5 +1,12 @@
+import { ZodError } from "zod";
+import { ForbidenError } from "../../errors/user.js";
 import { updateTransactionSchema } from "../../schemas/transactions.js";
-import { badRequest, ok, serverError } from "../helpers/httpHelpers.js";
+import {
+  badRequest,
+  forbiden,
+  ok,
+  serverError,
+} from "../helpers/httpHelpers.js";
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/userHelpers.js";
 
 export class UpdateTransactionController {
@@ -28,6 +35,10 @@ export class UpdateTransactionController {
         return badRequest({
           message: error.errors[0].message,
         });
+      }
+
+      if (error instanceof ForbidenError) {
+        return forbiden();
       }
       console.error(error);
 
