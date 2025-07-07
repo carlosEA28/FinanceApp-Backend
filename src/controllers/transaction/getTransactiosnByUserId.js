@@ -19,9 +19,11 @@ export class GetTransactiosByUserIdController {
         to: to,
       });
 
-      const transactions = await this.getTransactiosByUserIdService.execute({
-        userId: userId,
-      });
+      const transactions = await this.getTransactiosByUserIdService.execute(
+        userId,
+        from,
+        to
+      );
 
       return ok(transactions);
     } catch (error) {
