@@ -1,10 +1,7 @@
 import { ok, serverError } from "../controllers/helpers/httpHelpers.js";
 import { UserNotFoundError } from "../errors/user.js";
-import {
-  checkIfIdIsValid,
-  invalidIdResponse,
-  userNotFoundResponse,
-} from "./helpers/userHelpers.js";
+import { getUserBalanceSchema } from "../schemas/user.js";
+import { userNotFoundResponse } from "./helpers/userHelpers.js";
 
 export class GetUserBalanceController {
   constructor(getUserBalanceService) {
@@ -14,11 +11,14 @@ export class GetUserBalanceController {
   async execute(httpRequest) {
     try {
       const userId = httpRequest.params.userId;
-      const idIsValid = checkIfIdIsValid(userId);
+      const from = httpRequest.query.from;
+      const to = httpRequest.query.to;
 
-      if (!idIsValid) {
-        return invalidIdResponse();
-      }
+      await getUserBalanceSchema.parseAsync({
+        user_id: userId,
+        from,
+        to,
+      });
 
       const balance = await this.getUserBalanceService.execute({ userId });
       return ok(balance);
