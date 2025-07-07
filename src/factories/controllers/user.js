@@ -14,6 +14,10 @@ import { GetUserByIdService } from "../../service/user/get-user-by-id.js";
 import { UpdateUserService } from "../../service/user/updateUser.js";
 import { GetUserBalanceService } from "../../service/user/getUserBalance.js";
 import { GetUserBalanceController } from "../../controllers/getUserBalance.js";
+import { LoginUserController } from "../../controllers/loginUser.js";
+import { PasswordComparatorAdapter } from "../../adapters/password-comparator.js";
+import { TokenGeneratorAdapter } from "../../adapters/tokenGenerator.js";
+import { LoginUserService } from "../../service/user/loginUser.js";
 
 export const makeGetUserByIdController = () => {
   const getUserByIdRepository = new PostgresGetUserById();
@@ -79,4 +83,19 @@ export const makeGetUserBalanceController = () => {
   );
 
   return getUserBalanceController;
+};
+
+export const makeLoginUserController = () => {
+  const passwordComparatorAdapter = new PasswordComparatorAdapter();
+  const tokenGeneratorAdapter = new TokenGeneratorAdapter();
+  const getUserByEmailRepository = new PostgresGetUserByEmailRepository();
+
+  const loginUserService = new LoginUserService(
+    getUserByEmailRepository,
+    passwordComparatorAdapter,
+    tokenGeneratorAdapter
+  );
+
+  const loginUserController = new LoginUserController(loginUserService);
+  return loginUserController;
 };
