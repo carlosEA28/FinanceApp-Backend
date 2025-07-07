@@ -18,6 +18,9 @@ import { LoginUserController } from "../../controllers/loginUser.js";
 import { PasswordComparatorAdapter } from "../../adapters/password-comparator.js";
 import { TokenGeneratorAdapter } from "../../adapters/tokenGenerator.js";
 import { LoginUserService } from "../../service/user/loginUser.js";
+import { RefreshTokenController } from "../../controllers/refreshToken.js";
+import { RefreshTokenService } from "../../service/user/refreshToken.js";
+import { TokenVerifier } from "../../adapters/tokenVerifier.js";
 
 export const makeGetUserByIdController = () => {
   const getUserByIdRepository = new PostgresGetUserById();
@@ -98,4 +101,20 @@ export const makeLoginUserController = () => {
 
   const loginUserController = new LoginUserController(loginUserService);
   return loginUserController;
+};
+
+export const makeRefreshTokenController = () => {
+  const tokenGeneratorAdapter = new TokenGeneratorAdapter();
+  const tokenVerifierAdapter = new TokenVerifier();
+
+  const refreshTokenService = new RefreshTokenService(
+    tokenGeneratorAdapter,
+    tokenVerifierAdapter
+  );
+
+  const refreshTokenController = new RefreshTokenController(
+    refreshTokenService
+  );
+
+  return refreshTokenController;
 };

@@ -1,4 +1,4 @@
-import { ok, serverError } from "./helpers/httpHelpers";
+import { ok, serverError } from "./helpers/httpHelpers.js";
 import { UnauthorizedError } from "../errors/user.js";
 
 export class RefreshTokenController {
