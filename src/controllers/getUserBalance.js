@@ -20,14 +20,19 @@ export class GetUserBalanceController {
         to,
       });
 
-      const balance = await this.getUserBalanceService.execute({ userId });
+      const balance = await this.getUserBalanceService.execute({
+        userId,
+        from,
+        to,
+      });
+
       return ok(balance);
     } catch (error) {
       if (error instanceof UserNotFoundError) {
         return userNotFoundResponse();
       }
 
-      console.error();
+      console.error(error);
       return serverError(error);
     }
   }

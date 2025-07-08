@@ -14,9 +14,9 @@ export class GetTransactiosByUserIdController {
       const to = httpRequest.query.to;
 
       await getTransactionsByUserIdSchema.parseAsync({
-        userId: userId,
-        from: from,
-        to: to,
+        user_id: userId,
+        from,
+        to,
       });
 
       const transactions = await this.getTransactiosByUserIdService.execute(

@@ -5,8 +5,8 @@ export class PostgresGetBalanceRepository {
   async execute(userId, from, to) {
     const dateFilter = {
       date: {
-        gte: new Date(from),
-        lte: new Date(to),
+        gte: from,
+        lte: to,
       },
     };
     const totalExpenses = await prisma.transaction.aggregate({

@@ -6,8 +6,8 @@ export class PostgresGetTransatctionsByUserIdRepository {
       where: {
         user_id: userId,
         date: {
-          gte: new Date(from), //maior igual
-          lte: new Date(to), // menor igual
+          gte: from, //maior igual
+          lte: to, // menor igual
         },
       },
     });

@@ -33,6 +33,6 @@ export const updateTransactionSchema = createTransactionSchema
 
 export const getTransactionsByUserIdSchema = z.object({
   user_id: z.string().uuid(),
-  from: z.string().date().optional(),
-  to: z.string().date().optional(),
+  from: z.coerce.date().optional(),
+  to: z.coerce.date().optional(),
 });
