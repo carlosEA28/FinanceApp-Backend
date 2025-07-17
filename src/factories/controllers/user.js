@@ -37,9 +37,12 @@ export const makeCreateUserController = () => {
 
   const createUserRepository = new PostgtresCreteUserRepository();
 
+  const tokensGeneratorAdapter = new TokenGeneratorAdapter();
+
   const createUserService = new CreateUserService(
     getUserByEmailRepository,
-    createUserRepository
+    createUserRepository,
+    tokensGeneratorAdapter
   );
 
   const createUserController = new CreateUserController(createUserService);
